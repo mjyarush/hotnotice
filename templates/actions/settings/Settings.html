@@ -1,0 +1,284 @@
+
+<h1>Гибкие уведомления</h1>
+
+<div class="fields form">
+    <form action="?module=plugins&id=hotnotice&action=save" method="post" id="plugins-settings-form">
+        {$wa->csrf()}
+
+        <div class="field">
+            <div class="name">
+                <label>Отображение в поселениях</label>
+            </div>
+            <div class="value">
+                {foreach $settings.Posel as $key=>$path}
+                    <input type="checkbox" name="shop_hotnotice[pageStatus][{$path}]" value="{$path}" class="groupbox checkbox" {if !empty($settings.pageStatus) and isset($settings.pageStatus[$path])}checked="1"{/if}>
+                    <label>{$path}</label>
+                {/foreach}
+            </div>
+        </div>
+        <br>
+
+        <div class="block">
+            <ul class="tabs">
+                <li class="selected"><a class="hot" name="#block1">Хэлпер</a></li>
+                <li><a class="hot" name="#block2">Шапка</a></li>
+                <li><a class="hot" name="#block3">Футер</a></li>
+                <li><a class="hot" name="#block4">Главная</a></li>
+                <li><a class="hot" name="#block5">Оформление заказа</a></li>
+                <li><a class="hot" name="#block6">Категория</a></li>
+            </ul>
+            <div class="tab-content ">
+                <div class="block" id="block1">
+                    <div class="field">
+                        <div class="name"><label>Собственное уведомление с помощью хэлпера</label></div>
+                        <div class="value"><br>
+                            <span class="hint">{literal}{shopHotnoticeViewHelper::personalBanner()}{/literal}</span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Видимость на мобильных устройствах</label></div>
+                        <div class="value"><input type="checkbox" name="shop_hotnotice[personalMobile]" value="{if isset($settings.personalMobile)}1{else}0{/if}" class="checkbox" {if isset($settings.personalMobile) and $settings.personalMobile == 1 }checked="1"{/if}></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label >Видимость только для авторизованных пользователей</label></div>
+                        <div class="value"><input type="checkbox" name="shop_hotnotice[personalUser]" value="{if isset($settings.personalUser)}1{else}0{/if}" class="checkbox" {if isset($settings.personalUser) and $settings.personalUser == 1 }checked="1"{/if}></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label >Размер заголовка</label></div>
+                        <div class="value"><input type="text" name="shop_hotnotice[personalH1Size]" class="input" title="Размер заголовка" value="{if !empty($settings.personalH1Size)}{$settings.personalH1Size}{else}2.5{/if}"> <br><span class="hint">Размер заголовка .rem, по умолчанию 2.5</span></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label >Цвет текста</label></div>
+                        <div class="value"><input type="text" name="shop_hotnotice[personalH1Color]" class="input" title="Цвет текста" value="{if !empty($settings.personalH1Color)}{$settings.personalH1Color}{else}#ffffff{/if}"> <br><span class="hint">Цвет в формате HEX, по умолчанию #ffffff</span></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Цвет фона</label></div>
+                        <div class="value"><input type="text" name="shop_hotnotice[personalBG]" class="input" title="Цвет фона" value="{if !empty($settings.personalBG)}{$settings.personalBG}{else}#009999{/if}"> <br><span class="hint">Цвет в формате HEX, по умолчанию #009999</span></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Цвет крестика</label></div>
+                        <div class="value"><input type="text" name="shop_hotnotice[personalSVG]" class="input" title="Цвет крестика" value="{if !empty($settings.personalSVG)}{$settings.personalSVG}{else}#ffffff{/if}"> <br><span class="hint">Цвет в формате HEX, по умолчанию #ffffff</span></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Текст заголовка</label></div>
+                        <div class="value"><textarea name="shop_hotnotice[personalH1Text]" class="textarea">{if !empty($settings.personalH1Text)}{$settings.personalH1Text}{else}Введите текст вашего баннера!{/if}</textarea></div>
+                    </div>
+                </div>
+                <div class="block" id="block2" style="display: none">
+                    <div class="field">
+                        <div class="name"><label >Статус</label></div>
+                        <div class="value">
+                            <select name="shop_hotnotice[headerStatus]" autocomplete="off" class="select" title="Статус">
+                                <option value="1" {if isset($settings.headerStatus) and $settings.headerStatus == 1 }selected="selected"{/if}>Включен</option>
+                                <option value="0" {if $settings.headerStatus == 0 or empty($settings.headerStatus) }selected="selected"{/if}>Выключен</option>
+                            </select>
+                            <br>
+                            <span class="hint">Включите для отображения на страницах</span></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Видимость на мобильных устройствах</label></div>
+                        <div class="value"><input type="checkbox" name="shop_hotnotice[headerMobile]" value="{if isset($settings.headerMobile)}1{else}0{/if}" class="checkbox" {if isset($settings.headerMobile) and $settings.headerMobile == 1 }checked="1"{/if}  title="Видимость на мобильных устройствах"> </div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Видимость только для авторизованных пользователей</label></div>
+                        <div class="value"><input type="checkbox" name="shop_hotnotice[headerUser]" value="{if isset($settings.headerUser)}1{else}0{/if}" class="checkbox" {if isset($settings.headerUser) and $settings.headerUser == 1 }checked="1"{/if} title="Видимость только для авторизованных пользователей"> </div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label >Размер заголовка</label></div>
+                        <div class="value"><input type="text" name="shop_hotnotice[headerH1Size]" class="input" title="Размер заголовка" value="{if !empty($settings.headerH1Size)}{$settings.headerH1Size}{else}2.5{/if}"><br><span class="hint">Размер заголовка .rem, по умолчанию 2.5</span></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Цвет текста</label></div>
+                        <div class="value"><input type="text" name="shop_hotnotice[headerH1Color]" class="input" title="Цвет текста" value="{if !empty($settings.headerH1Color)}{$settings.headerH1Color}{else}#ffffff{/if}"> <br><span class="hint">Цвет в формате HEX, по умолчанию #ffffff</span></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Цвет фона</label></div>
+                        <div class="value"><input type="text" name="shop_hotnotice[headerBG]" class="input" title="Цвет фона" value="{if !empty($settings.headerBG)}{$settings.headerBG}{else}#009999{/if}"> <br><span class="hint">Цвет в формате HEX, по умолчанию #009999</span></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Цвет крестика</label></div>
+                        <div class="value"><input type="text" name="shop_hotnotice[headerSVG]" class="input" title="Цвет крестика" value="{if !empty($settings.headerSVG)}{$settings.headerSVG}{else}#ffffff{/if}"> <br><span class="hint">Цвет в формате HEX, по умолчанию #ffffff</span></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Текст заголовка</label></div>
+                        <div class="value"><textarea name="shop_hotnotice[headerH1Text]" class="textarea" title="Текст заголовка">{if !empty($settings.headerH1Text)}{$settings.headerH1Text}{else}Уведомление в шапке!{/if}</textarea> </div>
+                    </div>
+                </div>
+                <div class="block" id="block3" style="display: none">
+                    <div class="field">
+                        <div class="name"><label>Статус</label></div>
+                        <div class="value">
+                            <select name="shop_hotnotice[footerStatus]" autocomplete="off" class="select" title="Статус">
+                                <option value="1" {if $settings.footerStatus == 1 }selected="selected"{/if}>Включен</option>
+                                <option value="0" {if $settings.footerStatus == 0 or empty($settings.footerStatus) }selected="selected"{/if}>Выключен</option>
+                            </select><br><span class="hint">Включите для отображения на страницах</span></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label >Видимость на мобильных устройствах</label></div>
+                        <div class="value"><input type="checkbox" name="shop_hotnotice[footerMobile]" value="{if isset($settings.footerMobile)}1{else}0{/if}" class="checkbox" {if isset($settings.footerMobile) and $settings.footerMobile == 1 }checked="1"{/if} title="Видимость на мобильных устройствах"></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Видимость только для авторизованных пользователей</label></div>
+                        <div class="value"><input type="checkbox" name="shop_hotnotice[footerUser]" value="{if isset($settings.footerUser)}1{else}0{/if}" class="checkbox" {if isset($settings.footerUser) and $settings.footerUser == 1 }checked="1"{/if} title="Видимость только для авторизованных пользователей"> </div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Размер заголовка</label></div>
+                        <div class="value"><input type="text" name="shop_hotnotice[footerH1Size]" class="input" title="Размер заголовка" value="{if !empty($settings.footerH1Size)}{$settings.footerH1Size}{else}2.5{/if}"> <br><span class="hint">Размер заголовка .rem, по умолчанию 2.5</span></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Цвет текста</label></div>
+                        <div class="value"><input type="text" name="shop_hotnotice[footerH1Color]" class="input" title="Цвет текста" value="{if !empty($settings.footerH1Color)}{$settings.footerH1Color}{else}#ffffff{/if}"> <br><span class="hint">Цвет в формате HEX, по умолчанию #ffffff</span></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Цвет фона</label></div>
+                        <div class="value"><input type="text" name="shop_hotnotice[footerBG]" class="input" title="Цвет фона" value="{if !empty($settings.footerBG)}{$settings.footerBG}{else}#009999{/if}"> <br><span class="hint">Цвет в формате HEX, по умолчанию #009999</span></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Цвет крестика</label></div>
+                        <div class="value"><input type="text" name="shop_hotnotice[footerSVG]" class="input" title="Цвет крестика" value="{if !empty($settings.footerSVG)}{$settings.footerSVG}{else}#ffffff{/if}"> <br><span class="hint">Цвет в формате HEX, по умолчанию #ffffff</span></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Текст заголовка</label></div>
+                        <div class="value"><textarea name="shop_hotnotice[footerH1Text]" class="textarea"  title="Текст заголовка">{if !empty($settings.footerH1Text)}{$settings.footerH1Text}{else}Это подвал сайта!{/if}</textarea> </div>
+                    </div>
+                </div>
+                <div class="block" id="block4" style="display: none">
+                    <div class="field">
+                        <div class="name"><label>Статус</label></div>
+                        <div class="value">
+                            <select name="shop_hotnotice[mainStatus]" autocomplete="off" class="select" title="Статус">
+                                <option value="1" {if $settings.mainStatus == 1 }selected="selected"{/if}>Включен</option>
+                                <option value="0" {if $settings.mainStatus == 0 or empty($settings.mainStatus) }selected="selected"{/if}>Выключен</option>
+                            </select><br><span class="hint">Включите для отображения на страницах</span></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Видимость на мобильных устройствах</label></div>
+                        <div class="value"><input type="checkbox" name="shop_hotnotice[mainMobile]" value="{if isset($settings.mainMobile)}1{else}0{/if}" class="checkbox" {if isset($settings.mainMobile) and $settings.mainMobile == 1 }checked="1"{/if} title="Видимость на мобильных устройствах"> </div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Видимость только для авторизованных пользователей</label></div>
+                        <div class="value"><input type="checkbox" name="shop_hotnotice[mainUser]" value="{if isset($settings.mainUser)}1{else}0{/if}" class="checkbox" {if isset($settings.mainUser) and $settings.mainUser == 1 }checked="1"{/if} title="Видимость только для авторизованных пользователей"> </div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Размер заголовка</label></div>
+                        <div class="value"><input type="text" name="shop_hotnotice[mainH1Size]" class="input" title="Размер заголовка" value="{if !empty($settings.mainH1Size)}{$settings.mainH1Size}{else}2.5{/if}"> <br><span class="hint">Размер заголовка .rem, по умолчанию 2.5</span></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label >Цвет текста</label></div>
+                        <div class="value"><input  type="text" name="shop_hotnotice[mainH1Color]" class="input" title="Цвет текста" value="{if !empty($settings.mainH1Color)}{$settings.mainH1Color}{else}#ffffff{/if}"> <br><span class="hint">Цвет в формате HEX, по умолчанию #ffffff</span></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Цвет фона</label></div>
+                        <div class="value"><input type="text" name="shop_hotnotice[mainBG]" class="input" title="Цвет фона" value="{if !empty($settings.mainBG)}{$settings.mainBG}{else}#009999{/if}"> <br><span class="hint">Цвет в формате HEX, по умолчанию #009999</span></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Цвет крестика</label></div>
+                        <div class="value"><input type="text" name="shop_hotnotice[mainSVG]" class="input" title="Цвет крестика" value="{if !empty($settings.mainSVG)}{$settings.mainSVG}{else}#ffffff{/if}"> <br><span class="hint">Цвет в формате HEX, по умолчанию #ffffff</span></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Текст заголовка</label></div>
+                        <div class="value"><textarea name="shop_hotnotice[mainH1Text]" class="textarea" title="Текст заголовка">{if !empty($settings.mainH1Text)}{$settings.mainH1Text}{else}Уведомление на главной странице!{/if}</textarea> </div>
+                    </div>
+                </div>
+                <div class="block" id="block5" style="display: none">
+                    <div class="field">
+                        <div class="name"><label>Статус</label></div>
+                        <div class="value">
+                            <select name="shop_hotnotice[orderStatus]" autocomplete="off" class="select" title="Статус">
+                                <option value="1" {if $settings.orderStatus == 1 }selected="selected"{/if}>Включен</option>
+                                <option value="0" {if $settings.orderStatus == 0 or empty($settings.orderStatus) }selected="selected"{/if}>Выключен</option>
+                            </select> <br><span class="hint">Включите для отображения на страницах</span></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Видимость на мобильных устройствах</label></div>
+                        <div class="value"><input type="checkbox" name="shop_hotnotice[orderMobile]" value="{if isset($settings.orderMobile)}1{else}0{/if}" class="checkbox" {if isset($settings.orderMobile) and $settings.orderMobile == 1 }checked="1"{/if} title="Видимость на мобильных устройствах"></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Видимость только для авторизованных пользователей</label></div>
+                        <div class="value"><input type="checkbox" name="shop_hotnotice[orderUser]" value="{if isset($settings.orderUser)}1{else}0{/if}" class="checkbox" {if isset($settings.orderUser) and $settings.orderUser == 1 }checked="1"{/if} title="Видимость только для авторизованных пользователей"> </div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Размер заголовка</label></div>
+                        <div class="value"><input type="text" name="shop_hotnotice[orderH1Size]" class="input" title="Размер заголовка" value="{if !empty($settings.orderH1Size)}{$settings.orderH1Size}{else}2.5{/if}"> <br><span class="hint">Размер заголовка .rem, по умолчанию 2.5</span></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Цвет текста</label></div>
+                        <div class="value"><input type="text" name="shop_hotnotice[orderH1Color]" class="input" title="Цвет текста" value="{if !empty($settings.orderH1Color)}{$settings.orderH1Color}{else}#ffffff{/if}"> <br><span class="hint">Цвет в формате HEX, по умолчанию #ffffff</span></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Цвет фона</label></div>
+                        <div class="value"><input type="text" name="shop_hotnotice[orderBG]" class="input" title="Цвет фона" value="{if !empty($settings.orderBG)}{$settings.orderBG}{else}#009999{/if}"> <br><span class="hint">Цвет в формате HEX, по умолчанию #009999</span></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Цвет крестика</label></div>
+                        <div class="value"><input type="text" name="shop_hotnotice[orderSVG]" class="input" title="Цвет крестика" value="{if !empty($settings.orderSVG)}{$settings.orderSVG}{else}#ffffff{/if}"> <br><span class="hint">Цвет в формате HEX, по умолчанию #ffffff</span></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Текст заголовка</label></div>
+                        <div class="value"><textarea name="shop_hotnotice[orderH1Text]" class="textarea" title="Текст заголовка">{if !empty($settings.orderH1Text)}{$settings.orderH1Text}{else}Уведомление на странице заказа!{/if}</textarea> </div>
+                    </div>
+                </div>
+                <div class="block" id="block6" style="display: none">
+                    <div class="field">
+                        <div class="name"><label>Статус</label></div>
+                        <div class="value">
+                            <select name="shop_hotnotice[categoryStatus]" autocomplete="off" class="select" title="Статус">
+                                <option value="1" {if $settings.categoryStatus == 1 }selected="selected"{/if}>Включен</option>
+                                <option value="0" {if $settings.categoryStatus == 0 or empty($settings.categoryStatus) }selected="selected"{/if}>Выключен</option>
+                            </select><br><span class="hint">Включите для отображения на страницах</span></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Видимость на мобильных устройствах</label></div>
+                        <div class="value"><input type="checkbox" name="shop_hotnotice[categoryMobile]" value="{if isset($settings.categoryMobile)}1{else}0{/if}" class="checkbox" {if isset($settings.categoryMobile) and $settings.categoryMobile == 1 }checked="1"{/if} title="Видимость на мобильных устройствах"> </div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Видимость только для авторизованных пользователей</label></div>
+                        <div class="value"><input type="checkbox" name="shop_hotnotice[categoryUser]" value="{if isset($settings.categoryUser)}1{else}0{/if}" class="checkbox" {if isset($settings.categoryUser) and $settings.categoryUser == 1 }checked="1"{/if} title="Видимость только для авторизованных пользователей"> </div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>ID категории</label></div>
+                        <div class="value"><input type="text" name="shop_hotnotice[categoryID]" class="input" title="ID категории" value="{if isset($settings.categoryID)}{$settings.categoryID}{else}0{/if}"> <br><span class="hint">Укажите номер</span></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Размер заголовка</label></div>
+                        <div class="value"><input type="text" name="shop_hotnotice[categoryH1Size]" class="input" title="Размер заголовка" value="{if !empty($settings.categoryH1Size)}{$settings.categoryH1Size}{else}2.5{/if}"> <br><span class="hint">Размер заголовка .rem, по умолчанию 2.5</span></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Цвет текста</label></div>
+                        <div class="value"><input  type="text" name="shop_hotnotice[categoryH1Color]" class="input" title="Цвет текста" value="{if !empty($settings.categoryH1Color)}{$settings.categoryH1Color}{else}#ffffff{/if}"> <br><span class="hint">Цвет в формате HEX, по умолчанию #ffffff</span></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Цвет фона</label></div>
+                        <div class="value"><input  type="text" name="shop_hotnotice[categoryBG]" class="input" title="Цвет фона" value="{if !empty($settings.categoryBG)}{$settings.categoryBG}{else}#009999{/if}"> <br><span class="hint">Цвет в формате HEX, по умолчанию #009999</span></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label >Цвет крестика</label></div>
+                        <div class="value"><input type="text" name="shop_hotnotice[categorySVG]" class="input" title="Цвет крестика" value="{if !empty($settings.categorySVG)}{$settings.categorySVG}{else}#ffffff{/if}"> <br><span class="hint">Цвет в формате HEX, по умолчанию #ffffff</span></div>
+                    </div>
+                    <div class="field">
+                        <div class="name"><label>Текст заголовка</label></div>
+                        <div class="value"><textarea name="shop_hotnotice[categoryH1Text]" class="textarea" title="Текст заголовка">{if !empty($settings.categoryH1Text)}{$settings.categoryH1Text}{else}Уведомление в категории {$settings.categoryID}!{/if}</textarea> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="field">
+            <div class="value submit">
+                <input type="submit" class="button green" value="Сохранить">
+                <span id="plugins-settings-form-status" style="display:none"><!-- message placeholder --></span>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    $(document).ready(function () {
+        $('.hot').click(function () {
+            $('.tab-content').children().hide();
+            $('.hot').parent().removeClass('selected');
+            $(this).parent().toggleClass('selected');
+            var $block = $(this).attr('name');
+            $($block).show();
+        });
+    })
+</script>
